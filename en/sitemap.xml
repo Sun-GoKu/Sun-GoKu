@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://Sun-GoKu.github.io/blog/python/</loc>
+    <lastmod>2020-01-12T10:34:21+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://Sun-GoKu.github.io/about/about/</loc>
     <lastmod>2020-01-04T00:41:00+08:00</lastmod>
   </url>
@@ -43,22 +48,23 @@
   </url>
   
   <url>
-    <loc>https://Sun-GoKu.github.io/blog/20200105/</loc>
+    <loc>https://Sun-GoKu.github.io/blog/hugo/</loc>
     <lastmod>2020-01-04T00:30:14+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://Sun-GoKu.github.io/blog/2020/01/first_blog/</loc>
+    <loc>https://Sun-GoKu.github.io/blog/2020/01/linux%E6%8C%87%E4%BB%A4/</loc>
     <lastmod>2020-01-04T00:29:37+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://Sun-GoKu.github.io/blog/20200104/</loc>
+    <loc>https://Sun-GoKu.github.io/blog/</loc>
     <lastmod>2020-01-04T00:23:34+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://Sun-GoKu.github.io/blog/</loc>
+    <loc>https://Sun-GoKu.github.io/blog/linux/</loc>
+    <lastmod>2020-01-04T00:23:34+08:00</lastmod>
   </url>
   
   <url>

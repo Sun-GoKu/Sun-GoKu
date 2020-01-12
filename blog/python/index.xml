@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Blog on Welcome to my Blog</title>
-    <link>https://Sun-GoKu.github.io/blog/</link>
-    <description>Recent content in Blog on Welcome to my Blog</description>
+    <title>Python on Welcome to my Blog</title>
+    <link>https://Sun-GoKu.github.io/blog/python/</link>
+    <description>Recent content in Python on Welcome to my Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Sat, 04 Jan 2020 00:23:34 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 12 Jan 2020 10:34:21 +0800</lastBuildDate>
     
-	<atom:link href="https://Sun-GoKu.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://Sun-GoKu.github.io/blog/python/index.xml" rel="self" type="application/rss+xml" />
     
     
   </channel>

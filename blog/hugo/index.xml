@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hugo on Welcome to my Blog</title>
+    <link>https://Sun-GoKu.github.io/blog/hugo/</link>
+    <description>Recent content in Hugo on Welcome to my Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Sat, 04 Jan 2020 00:30:14 +0800</lastBuildDate>
+    
+	<atom:link href="https://Sun-GoKu.github.io/blog/hugo/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>hugo&#43;Github搭建博客</title>
+      <link>https://Sun-GoKu.github.io/blog/2020/01/hugo-github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</link>
+      <pubDate>Sat, 04 Jan 2020 00:30:32 +0800</pubDate>
+      
+      <guid>https://Sun-GoKu.github.io/blog/2020/01/hugo-github%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</guid>
+      <description>纠结了很久，最后还是选择把Blog转到Hugo上来，由于怕麻烦就不把以前的Hexo迁移到Hugo上了，所以整了个新的Hugo，力求简洁。按照惯例，既然捣鼓了Hugo，首篇Blog就自然介绍一下Hugo+Github搭建博客吧！
+环境  Windows 10 Git  安装Hugo 选择对应的版本下载Hugo
+
+新建hugo目录将压缩包解压至bin目录下：
+解压完成后，在此目录下打开cmd，输入hugo version可见详细版本信息，即代表安装成功；为了可以在任意目录下运行hugo命令，建议添加到Path环境变量中。
+C:\Users&amp;gt;hugo version Hugo Static Site Generator v0.62.0-6608F155 windows/amd64 BuildDate: 2019-12-23T10:26:18Z C:\Users&amp;gt; 生成site目录 进入hugo目录
+hugo new site blog #Congratulations! Your new Hugo site is created in /Users/steven/MyProjects/Demo/blog. #Just a few more steps and you&#39;re ready to go: # #1. Download a theme into the same-named folder. # Choose a theme from https://themes.gohugo.io/, or # create your own with the &amp;quot;hugo new theme &amp;lt;THEMENAME&amp;gt;&amp;quot; command.</description>
+    </item>
+    
+  </channel>
+</rss>
