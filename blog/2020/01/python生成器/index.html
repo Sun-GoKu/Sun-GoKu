@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="GoKu ">
+<meta name="description" content="What is 生成器？ 在Python中，一边循环一边计算的机制，成为生成器，即：gennerator。实际上，生成器的本质就是迭代器。生成器包括：生成器函数和生成器表达式这两种。
+上篇文章说到，列表生成式所生成的列表对内存会造成很大压力，而Python提供的解决方法就是生成器。生成器不会将结果保存在一个系列中，而是保存生成器的状态，在每次进行迭代时返回一个值，直到遇到StopIteration异常结束。换句话来说，如果我需要生成的列表，可以按照某种算法推算出来，那就可以不用一次性把所有元素都创建出来，可以在循环的过程中不断推算出后续的元素，然后按需生成。这就是生成器。
+生成器表达式 要创建一个generator最简单的方法就是把一个列表的[]改成()，也就是生成器表达式
+#列表生成式 L1 = [x*x for x in range(5)] print(L1) #结果	[0, 1, 4, 9, 16] #生成器 L2 = (x*x for x in range(5)) print(L2) #结果	&amp;lt;generator object &amp;lt;genexpr&amp;gt; at 0x000001FCFB8CDD60&amp;gt; 从上面的结果可以看出，直接打印L2输出的是一个对象类型，那怎么才能获取到generator的每一个元素呢？如果要一个一个打印出来，可以通过next()函数获得generator的下一个返回值：
+L2 = (x*x for x in range(5)) print(next(L2)) #结果	0 print(next(L2)) #结果	1 print(next(L2)) #结果	4 print(next(L2)) #结果	9 print(next(L2)) #结果	16 next(L2) #Traceback (most recent call last): # File &amp;quot;&amp;lt;stdin&amp;gt;&amp;quot;, line 1, in &amp;lt;module&amp;gt; #StopIteration 上面说过，generator保存的实际是算法，每次调用next(L2)，就计算出L2的下一个元素值，直到计算到最后一个元素，没有更多的元素时，抛出StopIteration的错误。" />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="#252627" />
+<link rel="canonical" href="https://Sun-GoKu.github.io/blog/2020/01/python%E7%94%9F%E6%88%90%E5%99%A8/" />
+
+
+    <title>
+        
+            Python生成器 :: Welcome to my Blog  — Hello Friend NG Theme
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://Sun-GoKu.github.io/main.min.7bfbbe12786fa0ded4b4c0d792cbb36a5bd0bdb0b856dde57aa7b1f6fe0f2b87.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://Sun-GoKu.github.io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://Sun-GoKu.github.io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://Sun-GoKu.github.io/favicon-16x16.png">
+    <link rel="manifest" href="https://Sun-GoKu.github.io/site.webmanifest">
+    <link rel="mask-icon" href="https://Sun-GoKu.github.io/safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="https://Sun-GoKu.github.io/favicon.ico">
+    <meta name="msapplication-TileColor" content="#252627">
+    <meta name="theme-color" content="#252627">
+
+<meta itemprop="name" content="Python生成器">
+<meta itemprop="description" content="What is 生成器？ 在Python中，一边循环一边计算的机制，成为生成器，即：gennerator。实际上，生成器的本质就是迭代器。生成器包括：生成器函数和生成器表达式这两种。
+上篇文章说到，列表生成式所生成的列表对内存会造成很大压力，而Python提供的解决方法就是生成器。生成器不会将结果保存在一个系列中，而是保存生成器的状态，在每次进行迭代时返回一个值，直到遇到StopIteration异常结束。换句话来说，如果我需要生成的列表，可以按照某种算法推算出来，那就可以不用一次性把所有元素都创建出来，可以在循环的过程中不断推算出后续的元素，然后按需生成。这就是生成器。
+生成器表达式 要创建一个generator最简单的方法就是把一个列表的[]改成()，也就是生成器表达式
+#列表生成式 L1 = [x*x for x in range(5)] print(L1) #结果	[0, 1, 4, 9, 16] #生成器 L2 = (x*x for x in range(5)) print(L2) #结果	&lt;generator object &lt;genexpr&gt; at 0x000001FCFB8CDD60&gt; 从上面的结果可以看出，直接打印L2输出的是一个对象类型，那怎么才能获取到generator的每一个元素呢？如果要一个一个打印出来，可以通过next()函数获得generator的下一个返回值：
+L2 = (x*x for x in range(5)) print(next(L2)) #结果	0 print(next(L2)) #结果	1 print(next(L2)) #结果	4 print(next(L2)) #结果	9 print(next(L2)) #结果	16 next(L2) #Traceback (most recent call last): # File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt; #StopIteration 上面说过，generator保存的实际是算法，每次调用next(L2)，就计算出L2的下一个元素值，直到计算到最后一个元素，没有更多的元素时，抛出StopIteration的错误。">
+<meta itemprop="datePublished" content="2020-01-14T19:34:06&#43;08:00" />
+<meta itemprop="dateModified" content="2020-01-14T19:34:06&#43;08:00" />
+<meta itemprop="wordCount" content="586">
+<meta itemprop="image" content="https://Sun-GoKu.github.io/"/>
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://Sun-GoKu.github.io/"/>
+
+<meta name="twitter:title" content="Python生成器"/>
+<meta name="twitter:description" content="What is 生成器？ 在Python中，一边循环一边计算的机制，成为生成器，即：gennerator。实际上，生成器的本质就是迭代器。生成器包括：生成器函数和生成器表达式这两种。
+上篇文章说到，列表生成式所生成的列表对内存会造成很大压力，而Python提供的解决方法就是生成器。生成器不会将结果保存在一个系列中，而是保存生成器的状态，在每次进行迭代时返回一个值，直到遇到StopIteration异常结束。换句话来说，如果我需要生成的列表，可以按照某种算法推算出来，那就可以不用一次性把所有元素都创建出来，可以在循环的过程中不断推算出后续的元素，然后按需生成。这就是生成器。
+生成器表达式 要创建一个generator最简单的方法就是把一个列表的[]改成()，也就是生成器表达式
+#列表生成式 L1 = [x*x for x in range(5)] print(L1) #结果	[0, 1, 4, 9, 16] #生成器 L2 = (x*x for x in range(5)) print(L2) #结果	&lt;generator object &lt;genexpr&gt; at 0x000001FCFB8CDD60&gt; 从上面的结果可以看出，直接打印L2输出的是一个对象类型，那怎么才能获取到generator的每一个元素呢？如果要一个一个打印出来，可以通过next()函数获得generator的下一个返回值：
+L2 = (x*x for x in range(5)) print(next(L2)) #结果	0 print(next(L2)) #结果	1 print(next(L2)) #结果	4 print(next(L2)) #结果	9 print(next(L2)) #结果	16 next(L2) #Traceback (most recent call last): # File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt; #StopIteration 上面说过，generator保存的实际是算法，每次调用next(L2)，就计算出L2的下一个元素值，直到计算到最后一个元素，没有更多的元素时，抛出StopIteration的错误。"/>
+
+
+
+
+
+    <meta property="article:published_time" content="2020-01-14 19:34:06 &#43;0800 CST" />
+
+
+
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://Sun-GoKu.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">[GoKu]# ls /home</span>
+            <span class="logo__cursor" style=""></span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://Sun-GoKu.github.io/blog/">Blog</a></li><li><a href="https://Sun-GoKu.github.io/moment/">Moment</a></li><li><a href="https://Sun-GoKu.github.io/about/">About</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title" ><a href="https://Sun-GoKu.github.io/blog/2020/01/python%E7%94%9F%E6%88%90%E5%99%A8/">Python生成器</a></h2>
+            
+            <div id="wc" style="font-size:50%;text-align: left;">600 Words|Read in about 3 Min|Views:<span id="busuanzi_value_page_pv"></span></div>
+
+            
+
+            <div class="post-content">
+                <h4 id="what-is-">What is 生成器？</h4>
+<p>在Python中，一边循环一边计算的机制，成为生成器，即：<code>gennerator</code>。实际上，生成器的本质就是迭代器。生成器包括：生成器函数和生成器表达式这两种。</p>
+<p>上篇文章说到，列表生成式所生成的列表对内存会造成很大压力，而Python提供的解决方法就是生成器。生成器不会将结果保存在一个系列中，而是保存生成器的状态，在每次进行迭代时返回一个值，直到遇到<code>StopIteration</code>异常结束。换句话来说，如果我需要生成的列表，可以按照某种算法推算出来，那就可以不用一次性把所有元素都创建出来，可以在循环的过程中不断推算出后续的元素，然后按需生成。这就是生成器。</p>
+<h4 id="heading">生成器表达式</h4>
+<p>要创建一个generator最简单的方法就是把一个列表的<code>[]</code>改成<code>()</code>，也就是生成器表达式</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#列表生成式</span>
+L1 <span style="color:#f92672">=</span> [x<span style="color:#f92672">*</span>x <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">5</span>)]
+<span style="color:#66d9ef">print</span>(L1)
+
+<span style="color:#75715e">#结果	[0, 1, 4, 9, 16]</span>
+
+
+<span style="color:#75715e">#生成器</span>
+L2 <span style="color:#f92672">=</span> (x<span style="color:#f92672">*</span>x <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">5</span>))
+<span style="color:#66d9ef">print</span>(L2)
+
+<span style="color:#75715e">#结果	&lt;generator object &lt;genexpr&gt; at 0x000001FCFB8CDD60&gt;</span>
+</code></pre></div><p>从上面的结果可以看出，直接打印<code>L2</code>输出的是一个对象类型，那怎么才能获取到<code>generator</code>的每一个元素呢？如果要一个一个打印出来，可以通过<code>next()</code>函数获得<code>generator</code>的下一个返回值：</p>
+<pre><code>L2 = (x*x for x in range(5))
+print(next(L2))
+#结果	0
+print(next(L2))
+#结果	1
+print(next(L2))
+#结果	4
+print(next(L2))
+#结果	9
+print(next(L2))
+#结果	16
+
+next(L2)
+#Traceback (most recent call last):
+#  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+#StopIteration
+</code></pre><p>上面说过，<code>generator</code>保存的实际是算法，每次调用<code>next(L2)</code>，就计算出<code>L2</code>的下一个元素值，直到计算到最后一个元素，没有更多的元素时，抛出<code>StopIteration</code>的错误。</p>
+<p><strong>注：这里说明一点，从上面的结果可以看出，每次调用<code>next()</code>返回的都是下一个值，即<code>yield</code>会记住当前执行到的位置并返回该位置的值，然后中断，在下次再次调用<code>next()</code>时就从<code>yield</code>的下一行开始执行。这点在下面生成器函数的时候会详细讲解到。</strong></p>
+<p>当然，用<code>next()</code>来一个个打印<code>generator</code>的值实在太费劲了，在实际应用中一般也不会用到它。我们说<code>generator</code>本质上也是个迭代器，那它自然也是可迭代对象，所以我们可以使用for循环来迭代<code>generator</code>中的值：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">L2 <span style="color:#f92672">=</span> (x<span style="color:#f92672">*</span>x <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">5</span>))
+<span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> L2:
+    <span style="color:#66d9ef">print</span>(i)
+    
+<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;&#39;&#39;</span><span style="color:#e6db74">结果</span><span style="color:#e6db74">
+</span><span style="color:#e6db74"></span><span style="color:#e6db74">0</span><span style="color:#e6db74">
+</span><span style="color:#e6db74"></span><span style="color:#e6db74">1</span><span style="color:#e6db74">
+</span><span style="color:#e6db74"></span><span style="color:#e6db74">4</span><span style="color:#e6db74">
+</span><span style="color:#e6db74"></span><span style="color:#e6db74">9</span><span style="color:#e6db74">
+</span><span style="color:#e6db74"></span><span style="color:#e6db74">16</span><span style="color:#e6db74">
+</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;&#39;&#39;</span>
+</code></pre></div><p>用for循环的好处还有就是不需担心会发生<code>StopIteration</code>的错误。</p>
+<h4 id="heading-1">生成器函数</h4>
+<p>一个包含<code>yield</code>关键字的函数就是一个生成器函数。并且<code>yield</code>不能和<code>return</code>共用，<code>yield</code>只能用在函数内。</p>
+<p><code>yield</code>相当于<code>return</code>返回一个值，并且会记住这个返回的位置，下次迭代时，代码从yield的下一条语句开始执行。下面感受下<code>yield</code>返回值的过程(<strong>重点关注：每次停在哪，下次又在哪开始</strong>)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">yield_test</span>(n):
+    <span style="color:#66d9ef">while</span> True:
+        <span style="color:#66d9ef">if</span> n<span style="color:#f92672">%</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+            <span style="color:#66d9ef">yield</span> call(n)
+        n <span style="color:#f92672">+</span><span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Done!</span><span style="color:#e6db74">&#34;</span>)
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">call</span>(n):
+    <span style="color:#66d9ef">return</span> n<span style="color:#f92672">*</span><span style="color:#ae81ff">2</span>
+
+total <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+<span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> yield_test(<span style="color:#ae81ff">4</span>):
+    <span style="color:#66d9ef">if</span> i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">20</span>:
+        total <span style="color:#f92672">+</span><span style="color:#f92672">=</span> i
+    <span style="color:#66d9ef">else</span>:
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">total=</span><span style="color:#e6db74">&#34;</span>,total)
+        <span style="color:#66d9ef">break</span>
+</code></pre></div><p>结果如下：</p>
+<pre><code>Done!
+Done!
+Done!
+Done!
+Done!
+Done!
+total= 36
+</code></pre><p>我们来看一下for循环对<code>yield_test()</code>函数的调用：</p>
+<p>当for循环从<code>yield_test()</code>请求第一个值时，我们进入<code>yield_test()</code>函数，这时与进入普通的函数没有区别</p>
+<ol>
+<li>进入第二行的while循环</li>
+<li>停留在if条件判断（4可被2整除）</li>
+<li>通过<code>yield</code>将<code>call(4)</code>的返回值（也就是8）和执行控制权返回给for循环</li>
+</ol>
+<p>接下来，回到for循环</p>
+<ol>
+<li>for循环得到返回值8</li>
+<li>for循环将其赋值给i</li>
+<li>通过条件判断，total加上i</li>
+<li>for循环从<code>yield_test()</code>请求下一个值</li>
+</ol>
+<p>这次，进入<code>yield_test()</code>时并没有从头开始执行，而是从第5行继续执行，也就是上次离开的地方的下一行。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">yield_test</span>(n):
+    <span style="color:#66d9ef">while</span> True:
+        <span style="color:#66d9ef">if</span> n<span style="color:#f92672">%</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+            <span style="color:#66d9ef">yield</span> call(n)
+        n <span style="color:#f92672">+</span><span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>					<span style="color:#75715e">#&lt;&lt;&lt;&lt;&lt;&lt;&lt;</span>
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">Done!</span><span style="color:#e6db74">&#34;</span>)
+</code></pre></div><p>最关键的是，n还保持我们上次调用<code>yield</code>时的值（例如4）。记住，<code>yield</code>会将值传给<code>next()</code>的调用方，同时还会保存生成器函数的&quot;状态&rdquo;。接下来，n加到5，回到while循环的开始处，然后增加到下一个可被2整除的数（6）。接着再一次把<code>call(n)</code>的值返回给for循环。这个周期会一直执行，直到for循环结束（可被2整除的数大于等于20）。<strong>PS：还有一个最笨的方法，结合代码，通过数一数上面输出结果中“Done!”打印的次数，也可大致理解程序的执行流程 。</strong></p>
+<h4 id="send">send()方法</h4>
+<p>生成器函数最大的特点是可以接受外部传入的一个变量，并根据变量内容计算结果后返回。<code>send()</code>和<code>next()</code>一样，都能让生成器继续往下走一步（下次遇到yield停），但<code>send()</code>能传一个值，这个值作为<code>yield</code>表达式整体的结果。——换句话说，就是<code>send()</code>可以强行修改上一个<code>yield</code>表达式值。比如函数中有一个<code>yield</code>赋值，<code>a = yield 5</code>，第一次迭代到这里会返回5，a还没有赋值。第二次迭代时，使用<code>.send(10)</code>，那么，就是强行修改<code>yield 5</code>表达式的值为10，本来a的值应该是5的，现在a=10。下面看下详细的例子：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">MyGenerator</span>():
+   a <span style="color:#f92672">=</span> (<span style="color:#66d9ef">yield</span> <span style="color:#ae81ff">5</span>)
+   b <span style="color:#f92672">=</span> (<span style="color:#66d9ef">yield</span> a) 
+   <span style="color:#66d9ef">yield</span> b
+
+gen <span style="color:#f92672">=</span> MyGenerator()
+<span style="color:#66d9ef">print</span>(next(gen))
+<span style="color:#66d9ef">print</span>(gen<span style="color:#f92672">.</span>send(<span style="color:#ae81ff">10</span>))
+<span style="color:#66d9ef">print</span>(gen<span style="color:#f92672">.</span>send(<span style="color:#ae81ff">12</span>))
+</code></pre></div><p>结果：</p>
+<pre><code>5
+10
+12
+</code></pre><p>上面的代码程序执行如下：<code>gen</code>调用<code>next(gen)</code>程序先遇到<code>yield 5</code>，返回5后程序挂起，注意此时a还未被赋值，然后<code>gen</code>再调用<code>send(10)</code>，恢复<code>MyGenerator()</code>的执行环境，由于调用了<code>send(10)</code>所以10会替代<code>yield 5</code>的整体值被赋值给a，所以此时a的值为10，程序继续往下走，遇到<code>yield a</code>则返回a的值即10，此时程序再次挂起，<code>gen</code>再调用<code>send(12)</code>，<code>MyGenerator()</code>的执行环境再次恢复，此时12替代<code>yield a</code>的整体值被赋值给b，然后遇到<code>yield b</code>返回b的值即12。</p>
+<p><code>send</code>方法和<code>next</code>方法唯一的区别是在执行<code>send</code>方法会首先把上一次挂起的<code>yield</code>语句的返回值通过参数设定，从而实现与生成器方法的交互。如上所说，所以在一个生成器对象没有执行<code>next</code>方法之前，由于没有<code>yeild</code>语句被挂起，所以<code>send</code>方法会报错。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">MyGenerator</span>():
+   a <span style="color:#f92672">=</span> (<span style="color:#66d9ef">yield</span> <span style="color:#ae81ff">5</span>)
+   b <span style="color:#f92672">=</span> (<span style="color:#66d9ef">yield</span> a) 
+   <span style="color:#66d9ef">yield</span> b
+
+gen <span style="color:#f92672">=</span> MyGenerator()
+<span style="color:#66d9ef">print</span>(gen<span style="color:#f92672">.</span>send(<span style="color:#ae81ff">10</span>))
+
+
+<span style="color:#75715e">#报错</span>
+Traceback (most recent call last):
+File <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">f:</span><span style="color:#e6db74">\</span><span style="color:#e6db74">VSCodeProject</span><span style="color:#e6db74">\</span><span style="color:#e6db74">python</span><span style="color:#e6db74">\</span><span style="color:#e6db74">demo.py</span><span style="color:#e6db74">&#34;</span>, line <span style="color:#ae81ff">86</span>, <span style="color:#f92672">in</span> <span style="color:#f92672">&lt;</span>module<span style="color:#f92672">&gt;</span>
+    <span style="color:#66d9ef">print</span>(gen<span style="color:#f92672">.</span>send(<span style="color:#ae81ff">10</span>))
+<span style="color:#a6e22e">TypeError</span>: can<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">t send non-None value to a just-started generator</span>
+</code></pre></div><p>要执行<code>send</code>方法前，可以先执行<code>send(None)</code>或<code>next()</code>以防止像以上代码一样报错。实际上对生成器使用<code>send(None)</code>方法，解释器在底层会调用<code>__next__</code>方法，也就是<code>next()</code>方法。</p>
+<h4 id="throw">throw()方法</h4>
+<p>参考帮助文档：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;</span><span style="color:#f92672">&gt;</span>help(g<span style="color:#f92672">.</span>throw)
+Help on built<span style="color:#f92672">-</span><span style="color:#f92672">in</span> function throw:                                                            
+throw(<span style="color:#f92672">.</span><span style="color:#f92672">.</span><span style="color:#f92672">.</span>) method of builtins<span style="color:#f92672">.</span>generator instance
+    throw(typ[,val[,tb]]) <span style="color:#f92672">-</span><span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">raise</span> exception <span style="color:#f92672">in</span> generator,
+    <span style="color:#66d9ef">return</span> next yielded value <span style="color:#f92672">or</span> <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">StopIteration</span><span style="color:#f92672">.</span>
+</code></pre></div><p>作用：用来向生成器函数送入一个异常，可以结束系统定义的异常，或者自定义的异常。<code>throw()</code>后直接抛出异常并结束程序。</p>
+<ul>
+<li>如果生成器函数没有捕获并处理传入的异常，或者说抛出了另一个异常，那么该异常会被传递给调用方。</li>
+<li>如果生成器退出时还没有<code>yeild</code>新值，则会抛出<code>StopIteration</code>异常。</li>
+</ul>
+<p><strong>第一种情况：</strong> 捕获并处理传入的异常，得到下一个<code>yield</code>的返回值。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">MyGenerator</span>():
+    value <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">while</span> True:
+        <span style="color:#66d9ef">try</span>:
+            <span style="color:#66d9ef">yield</span> value
+            value <span style="color:#f92672">+</span><span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">ValueError</span>:
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">捕捉到了ValueError</span><span style="color:#e6db74">&#34;</span>)
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">此时的value为：</span><span style="color:#e6db74">&#34;</span>,value)
+
+gen <span style="color:#f92672">=</span> MyGenerator()
+<span style="color:#66d9ef">print</span>(next(gen))
+<span style="color:#66d9ef">print</span>(gen<span style="color:#f92672">.</span>throw(<span style="color:#a6e22e">ValueError</span>))
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#结果</span>
+<span style="color:#ae81ff">1</span>
+<span style="color:#960050;background-color:#1e0010">捕</span><span style="color:#960050;background-color:#1e0010">捉</span><span style="color:#960050;background-color:#1e0010">到</span><span style="color:#960050;background-color:#1e0010">了</span><span style="color:#a6e22e">ValueError</span>
+<span style="color:#960050;background-color:#1e0010">此</span><span style="color:#960050;background-color:#1e0010">时</span><span style="color:#960050;background-color:#1e0010">的</span>value为<span style="color:#960050;background-color:#1e0010">：</span> <span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">1</span>
+</code></pre></div><p>输出结果中最后打印的1，是因为<code>gen</code>调用了<code>throw(ValueError)</code>，该方法向生成器传入了一个异常并被生成器的<code>except</code>捕获因此<code>value+1</code>被跳过，执行<code>except</code>语块的内容然后再次迭代时value的值仍为1，所以输出1。</p>
+<p><strong>第二种情况：</strong> 没有捕获并处理<code>throw</code>传入的异常，异常会回传给调用方。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> sys
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">MyGenerator</span>():
+    value <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">while</span> True:
+        <span style="color:#66d9ef">yield</span> value
+        value <span style="color:#f92672">+</span><span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+
+gen <span style="color:#f92672">=</span> MyGenerator()
+<span style="color:#66d9ef">print</span>(next(gen))
+<span style="color:#66d9ef">print</span>()
+<span style="color:#66d9ef">try</span>:
+    <span style="color:#66d9ef">print</span>(gen<span style="color:#f92672">.</span>throw(<span style="color:#a6e22e">ValueError</span>))
+<span style="color:#66d9ef">except</span> <span style="color:#a6e22e">ValueError</span>:
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">调用方捕获到ValueError</span><span style="color:#e6db74">&#34;</span>)
+	<span style="color:#66d9ef">print</span>(sys<span style="color:#f92672">.</span>exc_info())
+    
+<span style="color:#66d9ef">print</span>()
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">尝试再次调用next()获取值</span><span style="color:#e6db74">&#34;</span>)
+<span style="color:#66d9ef">print</span>(next(gen))
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#结果</span>
+<span style="color:#ae81ff">1</span>
+
+<span style="color:#960050;background-color:#1e0010">调</span><span style="color:#960050;background-color:#1e0010">用</span><span style="color:#960050;background-color:#1e0010">方</span><span style="color:#960050;background-color:#1e0010">捕</span><span style="color:#960050;background-color:#1e0010">获</span><span style="color:#960050;background-color:#1e0010">到</span><span style="color:#a6e22e">ValueError</span>
+(<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#a6e22e">ValueError</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">&gt;, ValueError(), &lt;traceback object at 0x000002DF792FAB00&gt;)</span>
+</code></pre></div><p>在上面程序中，生成器内没有加入<code>try...except</code>代码块来捕获异常，而是在生成器外，所以在调用时抛出的异常返回给了调用方。值得注意的是，再对通过抛出异常而退出的生成器使用<code>next(gen)</code>会持续抛出<code>StopIteration</code>异常。</p>
+<p><strong>第三种情况：</strong> 生成器退出时没有<code>yiedl</code>新值，会抛出<code>StopIteration</code>异常。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">MyGenerator</span>():
+    <span style="color:#66d9ef">try</span>:
+        <span style="color:#66d9ef">yield</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">在生成器内捕获到异常</span><span style="color:#e6db74">&#34;</span>)
+        <span style="color:#66d9ef">print</span>(e<span style="color:#f92672">.</span>args)
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">捕获处理异常完毕</span><span style="color:#e6db74">&#34;</span>)
+        <span style="color:#66d9ef">print</span>()
+
+    <span style="color:#75715e"># yield 2</span>
+
+gen <span style="color:#f92672">=</span> MyGenerator()
+<span style="color:#66d9ef">print</span>(next(gen))
+<span style="color:#66d9ef">print</span>()
+<span style="color:#66d9ef">print</span>(gen<span style="color:#f92672">.</span>throw(<span style="color:#a6e22e">ValueError</span>))
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#结果</span>
+<span style="color:#ae81ff">1</span>
+
+<span style="color:#960050;background-color:#1e0010">在</span><span style="color:#960050;background-color:#1e0010">生</span><span style="color:#960050;background-color:#1e0010">成</span><span style="color:#960050;background-color:#1e0010">器</span><span style="color:#960050;background-color:#1e0010">内</span><span style="color:#960050;background-color:#1e0010">捕</span><span style="color:#960050;background-color:#1e0010">获</span><span style="color:#960050;background-color:#1e0010">到</span><span style="color:#960050;background-color:#1e0010">异</span><span style="color:#960050;background-color:#1e0010">常</span>
+()
+<span style="color:#960050;background-color:#1e0010">捕</span><span style="color:#960050;background-color:#1e0010">获</span><span style="color:#960050;background-color:#1e0010">处</span><span style="color:#960050;background-color:#1e0010">理</span><span style="color:#960050;background-color:#1e0010">异</span><span style="color:#960050;background-color:#1e0010">常</span><span style="color:#960050;background-color:#1e0010">完</span><span style="color:#960050;background-color:#1e0010">毕</span> 
+
+Traceback (most recent call last):
+    File <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">f:</span><span style="color:#e6db74">\</span><span style="color:#e6db74">VSCodeProject</span><span style="color:#e6db74">\</span><span style="color:#e6db74">python</span><span style="color:#e6db74">\</span><span style="color:#e6db74">demo.py</span><span style="color:#e6db74">&#34;</span>, line <span style="color:#ae81ff">124</span>, <span style="color:#f92672">in</span> <span style="color:#f92672">&lt;</span>module<span style="color:#f92672">&gt;</span>
+    <span style="color:#66d9ef">print</span>(gen<span style="color:#f92672">.</span>throw(<span style="color:#a6e22e">ValueError</span>))
+<span style="color:#a6e22e">StopIteration</span>
+</code></pre></div><p>上面程序虽然捕获并处理了<code>throw</code>传入的异常，但是由于处理完之后生成器没有后续语句而退出运行，而且没有<code>yield</code>新值，所以会自动抛出一个<code>StopIteration</code>异常。如果把<code>yield 2</code>注释打开，则不会抛出<code>StopIteration</code>异常，因为此时生成器暂停并返回了<code>2</code></p>
+<h4 id="close">close方法</h4>
+<p><code>generator.close()</code></p>
+<p>作用：在生成器函数暂停的地方抛出一个<code>GeneratorExit</code>异常。这并不等价于<code>Generator.throw(Generator)</code>后面会说原因。如果生成器抛出<code>StopIteration</code>异常（不管是由于正常退出还是因为该生成器已经关闭），或者抛出<code>GeneratorExit</code>异常（不捕获该异常即可），<code>close</code>方法不传递该异常，直接返回调用方。而生成器抛出的其他异常会传递给调用方。<code>GeneratorExit</code>异常的产生意味着生成器对象的生命周期已经结束，因此生成器方法后续语句中不能再有<code>yield</code>，否则会产生<code>RuntimeError</code>。（而<code>throw</code>方法是期待一个<code>yield</code>返回值的，如果没有，则会抛出<code>StopIteration</code>异常。）对于已经正常退出或者因为异常退出的生成器对象，<code>close</code>方法不会进行任何操作。</p>
+<p><strong>第一种情况：</strong> 不捕获<code>GeneratorExit</code>异常，<code>close</code>方法返回调用方，不传递该异常。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">MyGenerator</span>():
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">下面yield 1</span><span style="color:#e6db74">&#34;</span>)
+    <span style="color:#66d9ef">yield</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">下面yield 2</span><span style="color:#e6db74">&#34;</span>)
+    <span style="color:#66d9ef">yield</span> <span style="color:#ae81ff">2</span>
+
+
+gen <span style="color:#f92672">=</span> MyGenerator()
+<span style="color:#66d9ef">print</span>(next(gen))
+gen<span style="color:#f92672">.</span>close()
+
+<span style="color:#66d9ef">print</span>()
+<span style="color:#66d9ef">print</span>(next(gen))
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#960050;background-color:#1e0010">下</span><span style="color:#960050;background-color:#1e0010">面</span><span style="color:#66d9ef">yield</span> <span style="color:#ae81ff">1</span>
+<span style="color:#ae81ff">1</span>
+
+We<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">ve got an error while stopping in unhandled exception: &lt;class </span><span style="color:#e6db74">&#39;</span><span style="color:#a6e22e">StopIteration</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">&gt;.</span>
+Traceback (most recent call last):
+    File <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">f:</span><span style="color:#e6db74">\</span><span style="color:#e6db74">VSCodeProject</span><span style="color:#e6db74">\</span><span style="color:#e6db74">python</span><span style="color:#e6db74">\</span><span style="color:#e6db74">demo.py</span><span style="color:#e6db74">&#34;</span>, line <span style="color:#ae81ff">122</span>, <span style="color:#f92672">in</span> <span style="color:#f92672">&lt;</span>module<span style="color:#f92672">&gt;</span>
+    <span style="color:#66d9ef">print</span>(next(gen))
+<span style="color:#a6e22e">StopIteration</span>
+</code></pre></div><p>如上所示，对已经关闭的生成器对象使用<code>next()</code>会抛出<code>StopIteration</code>异常。</p>
+<p><strong>第二种情况：</strong> 生成器自然退出抛出<code>StopIteration</code>异常，该异常不会传递给调用方，<code>close</code>方法正常返回。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">MyGenerator</span>():
+    <span style="color:#66d9ef">try</span>:
+        <span style="color:#66d9ef">yield</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">GeneratorExit</span>:
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">捕获到GeneratorExit</span><span style="color:#e6db74">&#34;</span>)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">生成器函数结束了</span><span style="color:#e6db74">&#34;</span>)
+
+
+gen <span style="color:#f92672">=</span> MyGenerator()
+<span style="color:#66d9ef">print</span>(next(gen))
+gen<span style="color:#f92672">.</span>close()
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#结果</span>
+<span style="color:#ae81ff">1</span>
+<span style="color:#960050;background-color:#1e0010">捕</span><span style="color:#960050;background-color:#1e0010">获</span><span style="color:#960050;background-color:#1e0010">到</span><span style="color:#a6e22e">GeneratorExit</span>
+<span style="color:#960050;background-color:#1e0010">生</span><span style="color:#960050;background-color:#1e0010">成</span><span style="color:#960050;background-color:#1e0010">器</span><span style="color:#960050;background-color:#1e0010">函</span><span style="color:#960050;background-color:#1e0010">数</span><span style="color:#960050;background-color:#1e0010">结</span><span style="color:#960050;background-color:#1e0010">束</span><span style="color:#960050;background-color:#1e0010">了</span>
+</code></pre></div><p><strong>第三种情况：</strong> 在<code>GeneratorExit</code>抛出后还有<code>yield</code>语句，会产生<code>RuntimeError</code>。另外生成器对象被垃圾回收时，解释器会自动调用该对象的<code>close</code>方法，这意味着最好不要在相应的<code>except</code>和<code>finally</code>中写<code>yield</code>语句，否则不知道什么时候就会抛出<code>RuntimeError</code>异常。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">MyGenerator</span>():
+    <span style="color:#66d9ef">try</span>:
+        <span style="color:#66d9ef">yield</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">GeneratorExit</span>:
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">捕获到GeneratorExit</span><span style="color:#e6db74">&#34;</span>)
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">尝试在GeneratorExit产生后yield一个值</span><span style="color:#e6db74">&#34;</span>)
+        <span style="color:#66d9ef">yield</span> <span style="color:#ae81ff">2</span>
+
+gen <span style="color:#f92672">=</span> MyGenerator()
+<span style="color:#66d9ef">print</span>(next(gen))
+gen<span style="color:#f92672">.</span>close()
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#结果</span>
+<span style="color:#ae81ff">1</span>
+<span style="color:#960050;background-color:#1e0010">捕</span><span style="color:#960050;background-color:#1e0010">获</span><span style="color:#960050;background-color:#1e0010">到</span><span style="color:#a6e22e">GeneratorExit</span>
+<span style="color:#960050;background-color:#1e0010">尝</span><span style="color:#960050;background-color:#1e0010">试</span><span style="color:#960050;background-color:#1e0010">在</span>GeneratorExit产生后yield一个值
+We<span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">ve got an error while stopping in unhandled exception: &lt;class </span><span style="color:#e6db74">&#39;</span><span style="color:#a6e22e">RuntimeError</span><span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">&gt;.</span>
+Traceback (most recent call last):
+    File <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">f:</span><span style="color:#e6db74">\</span><span style="color:#e6db74">VSCodeProject</span><span style="color:#e6db74">\</span><span style="color:#e6db74">python</span><span style="color:#e6db74">\</span><span style="color:#e6db74">demo.py</span><span style="color:#e6db74">&#34;</span>, line <span style="color:#ae81ff">120</span>, <span style="color:#f92672">in</span> <span style="color:#f92672">&lt;</span>module<span style="color:#f92672">&gt;</span>
+    gen<span style="color:#f92672">.</span>close()
+<span style="color:#a6e22e">RuntimeError</span>: generator ignored <span style="color:#a6e22e">GeneratorExit</span>
+</code></pre></div><p>一种防止抛出<code>RuntimeError</code>的安全生成器写法：设置一个布尔标识符</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">SafeGenerator</span>():
+    <span style="color:#66d9ef">yield</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">这是防止抛出RuntimeError的安全生成器</span><span style="color:#e6db74">&#39;</span>
+    closed <span style="color:#f92672">=</span> False
+    <span style="color:#66d9ef">try</span>:
+        <span style="color:#66d9ef">yield</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">yes</span><span style="color:#e6db74">&#39;</span>
+    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">GeneratorExit</span>:
+        closed <span style="color:#f92672">=</span> True
+        <span style="color:#66d9ef">raise</span>					<span style="color:#75715e">#raise后面的语句不会执行</span>
+    <span style="color:#66d9ef">finally</span>:
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> closed:
+            <span style="color:#66d9ef">yield</span> <span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">success!</span><span style="color:#e6db74">&#34;</span>
+</code></pre></div><p><strong>第四种情况：</strong> 对已经关闭的生成器对象调用<code>close()</code>方法，不会进行任何操作。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">MyGenerator</span>():
+    <span style="color:#66d9ef">yield</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">猜猜我会不会被执行</span><span style="color:#e6db74">&#34;</span>)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">不会的啦</span><span style="color:#e6db74">&#34;</span>)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">因为在yield 1就抛出了Generator异常</span><span style="color:#e6db74">&#34;</span>)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">未经捕获的GeneratorExit异常不会传递</span><span style="color:#e6db74">&#34;</span>)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">返回执行权给close的调用方</span><span style="color:#e6db74">&#34;</span>)
+
+gen <span style="color:#f92672">=</span> MyGenerator()
+<span style="color:#66d9ef">print</span>(next(gen))
+gen<span style="color:#f92672">.</span>close()
+gen<span style="color:#f92672">.</span>close()
+gen<span style="color:#f92672">.</span>close()			<span style="color:#75715e">#多次调用close，什么效果都没有</span>
+
+<span style="color:#75715e">#上面的运行结果只有 1</span>
+<span style="color:#75715e">#第一次调用close()就已经将生成器函数关闭,Generaotr异常没有被捕获，执行权返回给了调用方，所以再调用close()方法也没有任何效果。</span>
+</code></pre></div><p><strong>补充：</strong> <code>GeneratorExit</code>异常只有再生成器对象被激活后，才有可能产生。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">MyGenerator</span>():
+    <span style="color:#66d9ef">try</span>:
+        <span style="color:#66d9ef">yield</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">GeneratorExit</span>:
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74"></span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">捕获到GeneratorExit</span><span style="color:#e6db74">&#34;</span>)
+        <span style="color:#66d9ef">raise</span>
+
+gen1 <span style="color:#f92672">=</span> MyGenerator()
+<span style="color:#66d9ef">print</span>(next(gen1))
+gen1<span style="color:#f92672">.</span>close()
+
+<span style="color:#66d9ef">print</span>()
+gen2 <span style="color:#f92672">=</span> MyGenerator()
+gen2<span style="color:#f92672">.</span>close()
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#结果</span>
+<span style="color:#ae81ff">1</span>
+<span style="color:#960050;background-color:#1e0010">捕</span><span style="color:#960050;background-color:#1e0010">获</span><span style="color:#960050;background-color:#1e0010">到</span><span style="color:#a6e22e">GeneratorExit</span>
+</code></pre></div><p>从上面的输出结果可以看出，当生成器对象没有被激活时，就算调用<code>close</code>也是没有任何效果的，也就是<code>close</code>在生成器被激活前，不会抛出<code>GeneratorExit</code>异常，所以更不可能被捕获。</p>
+<p><strong>总结：</strong></p>
+<ul>
+<li><code>generator</code>是用来产生一系列值的</li>
+<li><code>yield</code>则像是<code>generator</code>函数的返回结果</li>
+<li><code>yield</code>唯一所做的另一件事就是保存一个<code>generator</code>函数的状态</li>
+<li><code>generator</code>就是一个特殊类型的迭代器（<code>iterator</code>）</li>
+<li>和迭代器相似，我们可以通过使用<code>next()</code>来从<code>generator</code>中获取下一个值</li>
+<li>通过隐式地调用<code>next()</code>来忽略一些值</li>
+<li><code>send()</code>可以给生成器传递一个参数，替换上一次<code>yield</code>表达式整体的值</li>
+<li><code>throw()</code>用于向生成器抛出异常（系统定义的异常或自定义的异常）并结束程序</li>
+<li><code>close()</code>向生成器抛出<code>GeneratorExit</code>异常结束生成器</li>
+</ul>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  			</div>
+
+        
+
+        
+
+        <div class="post-comment">
+          
+          
+  
+  <div id="vcomments"></div>
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script type="text/javascript">
+    new Valine({
+        el: '#vcomments' ,
+        appId: 'ohbh5fM3KAyeRWwKMOY8N9Um-gzGzoHsz',
+        appKey: 'SpDbtJwWMANkTWYyMb5L5geh',
+        notify: 'false', 
+        verify: 'false', 
+        avatar:'mm', 
+        placeholder: '说点什么吧...',
+        visitor: 'true'
+    });
+  </script>
+  
+
+ 
+        </div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+                <span><a href="https://Sun-GoKu.github.io/">GoKu</a></span>
+            
+            
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span><a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></span>
+            <span> <a href="https://Sun-GoKu.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            
+        </div>
+    
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+                
+            <span id="busuanzi_container_site_pv" src="//at.alicdn.com/t/font_1597733_2zjwzrrq2bo.css">
+                总阅读量  <span id="busuanzi_value_site_pv"></span>
+            </span>
+            &nbsp;
+            <span id="busuanzi_container_site_uv">
+                访问人数 <span id="busuanzi_value_site_uv"></span>
+            </span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="https://Sun-GoKu.github.io/bundle.min.2d5469329143160ae2456a69c3c76dc2d0a3b212b46afe291a51bd68650ed6f8697e001dab54f1c272c77ce08092a8c55e5bb4314e0ee334aab4b927ec896638.js" integrity="sha512-LVRpMpFDFgriRWppw8dtwtCjshK0av4pGlG9aGUO1vhpfgAdq1TxwnLHfOCAkqjFXlu0MU4O4zSqtLkn7IlmOA=="></script>
+
+
+
+    </body>
+</html>

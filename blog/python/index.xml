@@ -12,6 +12,19 @@
     
     
     <item>
+      <title>Python生成器</title>
+      <link>https://Sun-GoKu.github.io/blog/2020/01/python%E7%94%9F%E6%88%90%E5%99%A8/</link>
+      <pubDate>Tue, 14 Jan 2020 19:34:06 +0800</pubDate>
+      
+      <guid>https://Sun-GoKu.github.io/blog/2020/01/python%E7%94%9F%E6%88%90%E5%99%A8/</guid>
+      <description>What is 生成器？ 在Python中，一边循环一边计算的机制，成为生成器，即：gennerator。实际上，生成器的本质就是迭代器。生成器包括：生成器函数和生成器表达式这两种。
+上篇文章说到，列表生成式所生成的列表对内存会造成很大压力，而Python提供的解决方法就是生成器。生成器不会将结果保存在一个系列中，而是保存生成器的状态，在每次进行迭代时返回一个值，直到遇到StopIteration异常结束。换句话来说，如果我需要生成的列表，可以按照某种算法推算出来，那就可以不用一次性把所有元素都创建出来，可以在循环的过程中不断推算出后续的元素，然后按需生成。这就是生成器。
+生成器表达式 要创建一个generator最简单的方法就是把一个列表的[]改成()，也就是生成器表达式
+#列表生成式 L1 = [x*x for x in range(5)] print(L1) #结果	[0, 1, 4, 9, 16] #生成器 L2 = (x*x for x in range(5)) print(L2) #结果	&amp;lt;generator object &amp;lt;genexpr&amp;gt; at 0x000001FCFB8CDD60&amp;gt; 从上面的结果可以看出，直接打印L2输出的是一个对象类型，那怎么才能获取到generator的每一个元素呢？如果要一个一个打印出来，可以通过next()函数获得generator的下一个返回值：
+L2 = (x*x for x in range(5)) print(next(L2)) #结果	0 print(next(L2)) #结果	1 print(next(L2)) #结果	4 print(next(L2)) #结果	9 print(next(L2)) #结果	16 next(L2) #Traceback (most recent call last): # File &amp;quot;&amp;lt;stdin&amp;gt;&amp;quot;, line 1, in &amp;lt;module&amp;gt; #StopIteration 上面说过，generator保存的实际是算法，每次调用next(L2)，就计算出L2的下一个元素值，直到计算到最后一个元素，没有更多的元素时，抛出StopIteration的错误。</description>
+    </item>
+    
+    <item>
       <title>Python列表生成式</title>
       <link>https://Sun-GoKu.github.io/blog/2020/01/python%E5%88%97%E8%A1%A8%E7%94%9F%E6%88%90%E5%BC%8F/</link>
       <pubDate>Sun, 12 Jan 2020 10:27:15 +0800</pubDate>
