@@ -3,13 +3,13 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://Sun-GoKu.github.io/blog/2020/03/linux%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E7%82%B9/</loc>
-    <lastmod>2020-03-08T22:29:37+08:00</lastmod>
+    <loc>https://Sun-GoKu.github.io/blog/2020/03/pip%E5%B8%B8%E7%94%A8%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F%E6%BA%90/</loc>
+    <lastmod>2020-03-08T23:11:06+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://Sun-GoKu.github.io/</loc>
-    <lastmod>2020-03-08T22:29:37+08:00</lastmod>
+    <lastmod>2020-03-08T23:11:06+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="fr"
@@ -20,6 +20,11 @@
                 hreflang="en"
                 href="https://Sun-GoKu.github.io/"
                 />
+  </url>
+  
+  <url>
+    <loc>https://Sun-GoKu.github.io/blog/2020/03/linux%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E7%82%B9/</loc>
+    <lastmod>2020-03-08T22:29:37+08:00</lastmod>
   </url>
   
   <url>
@@ -94,10 +99,6 @@
                 hreflang="en"
                 href="https://Sun-GoKu.github.io/categories/"
                 />
-  </url>
-  
-  <url>
-    <loc>https://Sun-GoKu.github.io/blog/1/01/pip%E5%B8%B8%E7%94%A8%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F%E6%BA%90/</loc>
   </url>
   
   <url>

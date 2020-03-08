@@ -6,10 +6,21 @@
     <description>Recent content on Welcome to my Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Sun, 08 Mar 2020 22:29:37 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 08 Mar 2020 23:11:06 +0800</lastBuildDate>
     
 	<atom:link href="https://Sun-GoKu.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>pip常用国内镜像源</title>
+      <link>https://Sun-GoKu.github.io/blog/2020/03/pip%E5%B8%B8%E7%94%A8%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F%E6%BA%90/</link>
+      <pubDate>Sun, 08 Mar 2020 23:11:06 +0800</pubDate>
+      
+      <guid>https://Sun-GoKu.github.io/blog/2020/03/pip%E5%B8%B8%E7%94%A8%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F%E6%BA%90/</guid>
+      <description>清华：https://pypi.tuna.tsinghua.edu.cn/simple 阿里云：http://mirrors.aliyun.com/pypi/simple/ 中国科技大学 https://pypi.mirrors.ustc.edu.cn/simple/ 华中理工大学：http://pypi.hustunique.com/ 山东理工大学：http://pypi.sdutlinux.org/ 豆瓣：http://pypi.douban.com/simple/
+在 pip install xxx 后面加 -i 镜像地址，即可用国内镜像下载安装，速度会更快。例如：
+pip install piilow -i http://pypi.douban.com/simple/</description>
+    </item>
     
     <item>
       <title>Linux基本知识点</title>
@@ -112,17 +123,6 @@ my moment!</description>
 解压完成后，在此目录下打开cmd，输入hugo version可见详细版本信息，即代表安装成功；为了可以在任意目录下运行hugo命令，建议添加到Path环境变量中。
 C:\Users&amp;gt;hugo version Hugo Static Site Generator v0.62.0-6608F155 windows/amd64 BuildDate: 2019-12-23T10:26:18Z C:\Users&amp;gt; 生成site目录 进入hugo目录
 hugo new site blog #Congratulations! Your new Hugo site is created in /Users/steven/MyProjects/Demo/blog. #Just a few more steps and you&#39;re ready to go: # #1. Download a theme into the same-named folder. # Choose a theme from https://themes.gohugo.io/, or # create your own with the &amp;quot;hugo new theme &amp;lt;THEMENAME&amp;gt;&amp;quot; command.</description>
-    </item>
-    
-    <item>
-      <title>pip常用国内镜像源</title>
-      <link>https://Sun-GoKu.github.io/blog/1/01/pip%E5%B8%B8%E7%94%A8%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F%E6%BA%90/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://Sun-GoKu.github.io/blog/1/01/pip%E5%B8%B8%E7%94%A8%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F%E6%BA%90/</guid>
-      <description>清华：https://pypi.tuna.tsinghua.edu.cn/simple 阿里云：http://mirrors.aliyun.com/pypi/simple/ 中国科技大学 https://pypi.mirrors.ustc.edu.cn/simple/ 华中理工大学：http://pypi.hustunique.com/ 山东理工大学：http://pypi.sdutlinux.org/ 豆瓣：http://pypi.douban.com/simple/
-在 pip install xxx 后面加 -i 镜像地址，即可用国内镜像下载安装，速度会更快。例如：
-pip install piilow -i http://pypi.douban.com/simple/</description>
     </item>
     
   </channel>
