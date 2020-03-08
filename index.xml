@@ -114,5 +114,16 @@ C:\Users&amp;gt;hugo version Hugo Static Site Generator v0.62.0-6608F155 windows
 hugo new site blog #Congratulations! Your new Hugo site is created in /Users/steven/MyProjects/Demo/blog. #Just a few more steps and you&#39;re ready to go: # #1. Download a theme into the same-named folder. # Choose a theme from https://themes.gohugo.io/, or # create your own with the &amp;quot;hugo new theme &amp;lt;THEMENAME&amp;gt;&amp;quot; command.</description>
     </item>
     
+    <item>
+      <title>pip常用国内镜像源</title>
+      <link>https://Sun-GoKu.github.io/blog/1/01/pip%E5%B8%B8%E7%94%A8%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F%E6%BA%90/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://Sun-GoKu.github.io/blog/1/01/pip%E5%B8%B8%E7%94%A8%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F%E6%BA%90/</guid>
+      <description>清华：https://pypi.tuna.tsinghua.edu.cn/simple 阿里云：http://mirrors.aliyun.com/pypi/simple/ 中国科技大学 https://pypi.mirrors.ustc.edu.cn/simple/ 华中理工大学：http://pypi.hustunique.com/ 山东理工大学：http://pypi.sdutlinux.org/ 豆瓣：http://pypi.douban.com/simple/
+在 pip install xxx 后面加 -i 镜像地址，即可用国内镜像下载安装，速度会更快。例如：
+pip install piilow -i http://pypi.douban.com/simple/</description>
+    </item>
+    
   </channel>
 </rss>
