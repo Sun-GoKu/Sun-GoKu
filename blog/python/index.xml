@@ -14,7 +14,7 @@
     <item>
       <title>pip常用国内镜像源</title>
       <link>https://Sun-GoKu.github.io/blog/2020/03/pip%E5%B8%B8%E7%94%A8%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F%E6%BA%90/</link>
-      <pubDate>Sun, 08 Mar 2020 23:11:06 +0800</pubDate>
+      <pubDate>Sun, 08 Mar 2020 23:11:32 +0800</pubDate>
       
       <guid>https://Sun-GoKu.github.io/blog/2020/03/pip%E5%B8%B8%E7%94%A8%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F%E6%BA%90/</guid>
       <description>清华：https://pypi.tuna.tsinghua.edu.cn/simple 阿里云：http://mirrors.aliyun.com/pypi/simple/ 中国科技大学 https://pypi.mirrors.ustc.edu.cn/simple/ 华中理工大学：http://pypi.hustunique.com/ 山东理工大学：http://pypi.sdutlinux.org/ 豆瓣：http://pypi.douban.com/simple/
