@@ -6,10 +6,22 @@
     <description>Recent content on Welcome to my Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
-    <lastBuildDate>Sun, 16 Feb 2020 17:20:32 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 08 Mar 2020 22:29:37 +0800</lastBuildDate>
     
 	<atom:link href="https://Sun-GoKu.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Linux基本知识点</title>
+      <link>https://Sun-GoKu.github.io/blog/2020/03/linux%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E7%82%B9/</link>
+      <pubDate>Sun, 08 Mar 2020 22:29:37 +0800</pubDate>
+      
+      <guid>https://Sun-GoKu.github.io/blog/2020/03/linux%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E7%82%B9/</guid>
+      <description>文件属性 更改文件属性   chgrp：更改文件属组
+#语法chgrp [-R] 属组名 文件名参数选项
+ -R：递归更改文件属组，就是在更改某个目录文件的属组时，如果加上-R的参数，那么该目录下的所有文件的属组都会更改。  root@Kali:~# touch test.txtroot@Kali:~# ls -l test.txt -rw-r--r-- 1 root root 0 Jan 21 09:06 test.txtroot@Kali:~# chgrp test test.txtroot@Kali:~# ls -l test.txt -rw-r--r-- 1 root test 0 Jan 21 09:06 test.txt  chown：更改文件属主，也可以同时更改文件属组
+#语法chown [-R] 属主名 文件名chown [-R] 属主名:属主名 文件名#实例：将/root目录（~）下test.txt的拥有者改为binroot@Kali:~# chown bin test.txtroot@Kali:~# ls -l test.txt -rw-r--r-- 1 bin test 0 Jan 21 09:06 test.</description>
+    </item>
     
     <item>
       <title>Python绘制疫情地图</title>
@@ -100,18 +112,6 @@ my moment!</description>
 解压完成后，在此目录下打开cmd，输入hugo version可见详细版本信息，即代表安装成功；为了可以在任意目录下运行hugo命令，建议添加到Path环境变量中。
 C:\Users&amp;gt;hugo version Hugo Static Site Generator v0.62.0-6608F155 windows/amd64 BuildDate: 2019-12-23T10:26:18Z C:\Users&amp;gt; 生成site目录 进入hugo目录
 hugo new site blog #Congratulations! Your new Hugo site is created in /Users/steven/MyProjects/Demo/blog. #Just a few more steps and you&#39;re ready to go: # #1. Download a theme into the same-named folder. # Choose a theme from https://themes.gohugo.io/, or # create your own with the &amp;quot;hugo new theme &amp;lt;THEMENAME&amp;gt;&amp;quot; command.</description>
-    </item>
-    
-    <item>
-      <title>Linux指令</title>
-      <link>https://Sun-GoKu.github.io/blog/2020/01/linux%E6%8C%87%E4%BB%A4/</link>
-      <pubDate>Sat, 04 Jan 2020 00:29:37 +0800</pubDate>
-      
-      <guid>https://Sun-GoKu.github.io/blog/2020/01/linux%E6%8C%87%E4%BB%A4/</guid>
-      <description>Linux关机/重启 shutdown指令
-sysnc	#将数据由内存同步到硬盘中。重启或关闭系统前，最好先执行一下此命令 shutdown	#关机指令，可以man shutdown来看一下帮助文档 shutdown -t 10 &#39;This server will shutdown after 10 mins&#39;	#这个命令告诉大家，计算机将在10分钟后关机，并且会显示在登录用户的当前屏幕中 shutdown -h now #立马关机 shutdown -h 20:25	#系统会在今天20:25关机 shutdown -h +10 #十分钟后关机 shutdown -r now #系统立马重启 shutdown -r +10 #系统十分钟后重启 shutdown -p now #关闭机器 shutdown -H now #停止机器 shutdown -r09:35 #在09:35am重启机器 shutdown -c	#取消即将进行的关机操作 halt指令
-halt #停止机器/关闭系统，等同于shutdown -h now 和 poweroff halt -p #关闭机器 halt --reboot #重启机器 poweroff指令
-poweroff #关闭机器 poweroff --halt #停止机器 poweroff --reboot #重启机器 reboot指令</description>
     </item>
     
   </channel>
